@@ -1,5 +1,11 @@
 #Webstorm
-.idea
+.idea/
+*.iml
+/out/
+.idea_modules/
+com_crashlytics_export_strings.xml
+crashlytics.properties
+crashlytics-build.properties
 
 #node.js
 node_modules
