@@ -1,0 +1,20 @@
+/*
+ *  foundation imports
+ */
+@import "config/foundation-settings";
+@import "foundation-sites/scss/normalize";
+@import "foundation-sites/scss/foundation";
+
+/*
+ *  config imports
+ */
+@import "config/colors";
+
+/*
+ *  components imports
+ */
+@import "components/base";
+@import "components/header";
+@import "components/footer";
+@import "components/input";
+@import "components/result";
