@@ -9,3 +9,7 @@ crashlytics-build.properties
 
 #node.js
 node_modules
+
+#RANDOM.ORG API key file
+random.org-api-key.txt
+keyUtil.js

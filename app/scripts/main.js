@@ -3,5 +3,4 @@
  */
 //var $ = require('jquery');
 
-var dom = require('./dom.js');
-dom.append("hello!");
+var dom = require('./modules/fusion.js');
