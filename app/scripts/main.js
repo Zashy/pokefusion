@@ -3,4 +3,4 @@
  */
 //var $ = require('jquery');
 
-var dom = require('./modules/fusion.js');
+var fusion = require('./modules/fusion.js');

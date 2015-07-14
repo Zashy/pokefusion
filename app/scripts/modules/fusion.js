@@ -1,24 +1,23 @@
 /**
  * Created by Zashy on 7/13/2015.
  */
-var keyUtil = require('./../utility/keyUtil.js');
+var randomPokemon = require('./../modules/randomPokemon.js');
 
-var pokemon1 = 1,
-	pokemon2 = 2;
-
-var randomOrgAPI = keyUtil.getRandomOrgAPIKey();
-
-function processRandomResult(){
+function init(){
+	document.getElementById('generate').addEventListener('click', generate, false);
 }
 
-var xhr = new XMLHttpRequest(),
-	data = {
-		"apiKey": '',
-		"n":      10,
-		"min":    1,
-		"max":   721
-	};
-xhr.onreadystatechange = processRandomResults;
+function generate() {
+	var pokemons = randomPokemon.getPokemon();
+	console.log(JSON.stringify(pokemons));
+}
 
-httpRequest.open('POST', 'https://api.random.org/json-rpc/1/invoke', true);
-httpRequest.send(data);
+function loadFusion(pokemon1, pokemon2){
+	// once we have the two pokemon numbers, time to update the page
+}
+
+init();
+
+module.exports = {
+	generate: generate
+};
