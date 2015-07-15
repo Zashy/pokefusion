@@ -10,10 +10,11 @@ var count = 0,
 	pokemonData = null,
 	recursionCount = 0,
 	status = -1,
-	error = 'oops :c';
+	error = 'oops :c',
+	newData = false;
 
 // constants
-var NEW_SET_LIMIT =         0,  // limit at which to pull down a new set of pokemon
+var NEW_SET_LIMIT =         4,  // limit at which to pull down a new set of pokemon
 	POKEMON_SET_SIZE =      10, // size of data to request (WARNING: Demo data only has 10 records)
 	POKEMON_MIN =           1,
 	POKEMON_MAX =           721,
@@ -47,7 +48,7 @@ function getPokemon(){
 		pokemon2:   -1,
 		status:     status,
 		error:      'init'
-	}
+	};
 	switch(result.status){
 		case STATUS_WAITING:
 			result.error = 'ERROR: Data is not ready, something terrible is wrong! D:';
@@ -58,8 +59,13 @@ function getPokemon(){
 		case STATUS_READY:
 			if(pokemon == null){
 				pokemon = JSON.parse(pokemonData);
+				newData = false;
 			}
-			if(JSON.stringify(pokemon) !== pokemonData){
+			console.log(JSON.stringify(pokemon));
+			if(newData == true){
+				newData = false;
+				console.log(pokemonData);
+				console.log(count);
 				// fancy append magic
 				var pokemonTemp = JSON.parse(pokemonData),
 					countTemp = POKEMON_SET_SIZE+count; //new count
@@ -76,6 +82,10 @@ function getPokemon(){
 			}else{/*pokemon and count are correct*/}
 			result.pokemon1 = popPokemon();
 			result.pokemon2 = popPokemon();
+			if(status != STATUS_WAITING && count < NEW_SET_LIMIT){
+				randomOrgAPI.requestNewRandomSet(POKEMON_SET_SIZE, POKEMON_MIN, POKEMON_MAX);
+				setTimeout(requestWait, 500);
+			}
 			result.error = 'none';
 			break;
 	}
@@ -96,7 +106,8 @@ function requestWait(){
 			// data is ready
 			status = STATUS_READY;
 			pokemonData = window.localStorage.getItem('randomOrg_Result');
-			count = window.localStorage.getItem('randomOrg_Count');
+			//count = window.localStorage.getItem('randomOrg_Count');
+			newData = true;
 		}else{
 			setTimeout(requestWait, 500);
 		}
