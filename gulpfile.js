@@ -34,11 +34,18 @@ function bundle() {
 
 gulp.task('default', ['dev']);
 
-gulp.task('build', ['html', 'styles', 'scripts:watchify', 'images', 'fonts']);
+gulp.task('build', ['html', 'styles', 'scripts:watchify', 'images', 'fonts', 'resources']);
 
 gulp.task('html', function() {
     return gulp.src('app/**/*.html')
         .pipe(gulp.dest('dist'));
+});
+
+gulp.task('resources', function(){
+	return gulp.src('app/resources/**/*')
+		.pipe(plugins.flatten())
+		.pipe(plugins.size({ showFiles: true, title: 'resources' }))
+		.pipe(gulp.dest('dist/resources'));
 });
 
 gulp.task('styles', function() {

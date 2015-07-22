@@ -44,7 +44,7 @@ function requestNewRandomSet(number, min, max){
 	/*
 	 The following will request a new set of random integers. API key only allows 1000 requests per month
 	 and a max data limit. Will need to do something about this involving storage, for now it's dummy data and javascript random
-
+		optimal request # of numbers: 2000
 	xhr.onreadystatechange = processRandomResponse;
 
 	xhr.open('POST', 'https://api.random.org/json-rpc/1/invoke', true);

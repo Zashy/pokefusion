@@ -61,11 +61,8 @@ function getPokemon(){
 				pokemon = JSON.parse(pokemonData);
 				newData = false;
 			}
-			console.log(JSON.stringify(pokemon));
 			if(newData == true){
 				newData = false;
-				console.log(pokemonData);
-				console.log(count);
 				// fancy append magic
 				var pokemonTemp = JSON.parse(pokemonData),
 					countTemp = POKEMON_SET_SIZE+count; //new count
