@@ -8,17 +8,15 @@ var randomOrgAPI = require('./../utility/randomOrgAPI.js');
 var count = 0,
 	pokemon = null,
 	pokemonData = null,
-	recursionCount = 0,
 	status = -1,
 	error = 'oops :c',
 	newData = false;
 
 // constants
 var NEW_SET_LIMIT =         4,  // limit at which to pull down a new set of pokemon
-	POKEMON_SET_SIZE =      10, // size of data to request (WARNING: Demo data only has 10 records)
+	POKEMON_SET_SIZE =      1998, // size of data to request
 	POKEMON_MIN =           1,
-	POKEMON_MAX =           721,
-	RECURSION_TIMEOUT =     5,  // timeout to declare recursive wait function in error
+	POKEMON_MAX =           721, // 721 max pokemon
 	STATUS_READY =          0,
 	STATUS_WAITING =        1,
 	STATUS_ERROR =          2;
@@ -26,22 +24,20 @@ var NEW_SET_LIMIT =         4,  // limit at which to pull down a new set of poke
 function init(){
 	count = window.localStorage.getItem('randomOrg_Count');
 	if(count == null){
-		randomOrgAPI.requestNewRandomSet(POKEMON_SET_SIZE, POKEMON_MIN, POKEMON_MAX);
+		randomOrgAPI.requestNewRandomSet(POKEMON_SET_SIZE, POKEMON_MIN, POKEMON_MAX, requestComplete);
 	}else{
 		count = parseInt(count);
 		if(count <= NEW_SET_LIMIT) {
-			randomOrgAPI.requestNewRandomSet(POKEMON_SET_SIZE, POKEMON_MIN, POKEMON_MAX);
+			randomOrgAPI.requestNewRandomSet(POKEMON_SET_SIZE, POKEMON_MIN, POKEMON_MAX, requestComplete);
 		}
 	}
-	setTimeout(requestWait, 500);
 }
 
-/* request a pokemon number (or pair?) can return an error
+/* request a pair of pokemon numbers can return an error
 	return: {   pokemon1: #,
 				pokemon2: #,
 				error:    ''}
  */
-
 function getPokemon(){
 	var result = {
 		pokemon1:   -1,
@@ -80,8 +76,8 @@ function getPokemon(){
 			result.pokemon1 = popPokemon();
 			result.pokemon2 = popPokemon();
 			if(status != STATUS_WAITING && count < NEW_SET_LIMIT){
-				randomOrgAPI.requestNewRandomSet(POKEMON_SET_SIZE, POKEMON_MIN, POKEMON_MAX);
-				setTimeout(requestWait, 500);
+				randomOrgAPI.requestNewRandomSet(POKEMON_SET_SIZE, POKEMON_MIN, POKEMON_MAX, requestComplete);
+				status = STATUS_WAITING;
 			}
 			result.error = 'none';
 			break;
@@ -92,25 +88,15 @@ function getPokemon(){
 function popPokemon(){
 	var result = pokemon[count-1];
 	count--;
+	window.localStorage.setItem('randomOrg_Count', count);
 	return result;
 }
 
-function requestWait(){
-	status = STATUS_WAITING;
-	if(recursionCount <= RECURSION_TIMEOUT) {
-		recursionCount++;
-		if (parseInt(window.localStorage.getItem('randomOrg_Count')) > NEW_SET_LIMIT) {
-			// data is ready
-			status = STATUS_READY;
-			pokemonData = window.localStorage.getItem('randomOrg_Result');
-			//count = window.localStorage.getItem('randomOrg_Count');
-			newData = true;
-		}else{
-			setTimeout(requestWait, 500);
-		}
-	}else {
-		status = STATUS_ERROR;
-	}
+function requestComplete(){
+	status = STATUS_READY;
+	pokemonData = window.localStorage.getItem('randomOrg_Result');
+	//count = window.localStorage.getItem('randomOrg_Count');
+	newData = true;
 }
 
 init();

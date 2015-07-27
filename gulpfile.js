@@ -27,7 +27,7 @@ function bundle() {
         .on('error', plugins.util.log.bind(plugins.util, 'Browserify Error'))
         .pipe(source('main.js'))
         .pipe(buffer())
-        .pipe(plugins.uglify())
+	    .pipe(plugins.uglify())
         .pipe(gulp.dest('dist/scripts'))
         .pipe(browserSync.stream());
 }

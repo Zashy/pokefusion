@@ -4,13 +4,14 @@
 var randomPokemon = require('./randomPokemon.js');
 var nationalPokedex = require('./nationalPokedex.js');
 
+var IMAGE_DIMENSION = '200';
+
 function init(){
 	document.getElementById('generate').addEventListener('click', generate, false);
 }
 
 function generate() {
 	var pokemons = randomPokemon.getPokemon();
-	console.log(JSON.stringify(pokemons));
 	loadFusion(pokemons.pokemon1, pokemons.pokemon2);
 }
 
@@ -23,6 +24,8 @@ function loadFusion(pokemon1, pokemon2){
 		pokemon2Name = nationalPokedex.getPokemonName(pokemon2),
 		pokemon1Link = nationalPokedex.getBulbapediaLink(pokemon1Name),
 		pokemon2Link = nationalPokedex.getBulbapediaLink(pokemon2Name),
+		pokemon1Img = nationalPokedex.getImageLink(pokemon1),
+		pokemon2Img = nationalPokedex.getImageLink(pokemon2),
 		pokemons = document.getElementsByClassName('pokemon'),
 		fusions = document.getElementsByClassName('fusion-fig');
 
@@ -32,9 +35,11 @@ function loadFusion(pokemon1, pokemon2){
 		pokemons[1].removeChild(fusions[0]);
 	}
 
-	html1 += '<a class="th" href="'+pokemon1Link+'"><img src="./images/MissingNo..png" width="100px" height="100px"/></a>' +
+	html1 += '<a class="th" href="'+pokemon1Link+'"><img src="'+pokemon1Img+
+				'" width="'+IMAGE_DIMENSION+'px" height="'+IMAGE_DIMENSION+'px"/></a>' +
 			'<figcaption>'+pokemon1Name+'</figcaption>';
-	html2 += '<a class="th" href="'+pokemon2Link+'"><img src="./images/MissingNo..png" width="100px" height="100px"/></a>' +
+	html2 += '<a class="th" href="'+pokemon2Link+'"><img src="'+pokemon2Img+
+				'" width="'+IMAGE_DIMENSION+'px" height="'+IMAGE_DIMENSION+'px"/></a>' +
 			'<figcaption>'+pokemon2Name+'</figcaption>';
 
 	element1.innerHTML=html1;
